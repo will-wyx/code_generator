@@ -1,17 +1,22 @@
 const {ipcMain} = require('electron');
+const fs = require('fs');
 
 const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host: '220.194.201.12',
-    port: 3307,
-    user: 'exchange',
-    password: 'exchange123456',
-    database: 'exchange'
-
+let connection = null;
+ipcMain.on('setConn', (e, args) => {
+    const {host, port, user, password, database} = args;
+    connection = mysql.createConnection({
+        host, port, user, password, database,
+    });
+    connection.connect(err => {
+        fs.writeFile('conf.json', JSON.stringify(args), fserr => {
+            console.log(`write log completed`)
+        });
+    });
 });
 
-connection.connect();
-ipcMain.on('getNews', (event, args)=> {
+
+ipcMain.on('getNews', (event, args) => {
     // console.log(r);
     connection.query('select * from exc_news', (e, r, f) => {
         event.sender.send('getNewsSuccess', r);

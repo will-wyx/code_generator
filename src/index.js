@@ -4,7 +4,10 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducers/index';
 import App from './components/App';
+import Connection from './components/Connection';
 import 'bootstrap/dist/css/bootstrap.css';
+
+import {BrowserRouter, HashRouter, Route} from 'react-router-dom';
 
 const initValue = {
     count: 0
@@ -12,9 +15,20 @@ const initValue = {
 
 const store = createStore(reducer, initValue);
 
+const bodyStyle = {
+    padding: '20px'
+};
+
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <HashRouter>
+            <div style={bodyStyle}>
+                <div className="container">
+                    <Route exact path="/" component={App}/>
+                    <Route exact path="/connection" component={Connection}/>
+                </div>
+            </div>
+        </HashRouter>
     </Provider>
     , document.getElementById('root'));
 

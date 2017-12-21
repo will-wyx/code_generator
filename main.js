@@ -22,12 +22,13 @@ function createWindow() {
     // and load the index.html of the app.
 
     // mainWindow.loadURL(url.format({
-    //   pathname: path.join(__dirname, './build/index.html'),
-    //   protocol: 'file:',
-    //   slashes: true
+    //     pathname: path.join(__dirname, './build/index.html'),
+    //     hash: '#/connection',
+    //     protocol: 'file:',
+    //     slashes: true
     // }))
 
-    mainWindow.loadURL('http://localhost:3000/');
+    mainWindow.loadURL('http://localhost:3000');
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
