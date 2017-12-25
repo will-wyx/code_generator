@@ -3,3 +3,18 @@ exports.toCamelCase = (v) => {
         return e.replace('_', '').toUpperCase()
     });
 };
+
+exports.dataTypeToJava = (dataType) => {
+    let type;
+    switch (dataType) {
+        case 'int':
+            type = 'int';
+            break;
+        case 'varchar':
+        case 'text':
+        default:
+            type = 'String';
+            break;
+    }
+    return type;
+};

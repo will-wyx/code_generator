@@ -7,13 +7,6 @@ export default class Connection extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = {
-            host: '',
-            port: 0,
-            user: '',
-            password: '',
-            database: ''
-        }
     }
 
     componentDidMount() {
@@ -30,7 +23,6 @@ export default class Connection extends Component {
         // e.stopPropagation();
         // e.nativeEvent.stopImmediatePropagation();
         e.preventDefault();
-        // console.log(this.refs);
         let data = {};
         for (let key of Object.keys(this.refs)) {
             data[key] = this.refs[key].value;
@@ -55,6 +47,9 @@ export default class Connection extends Component {
                 </FormGroup>
                 <FormGroup>
                     <input className="form-control" type="text" placeholder="database" ref="database"/>
+                </FormGroup>
+                <FormGroup>
+                    <input className="form-control" type="text" placeholder="packagename" ref="packagename"/>
                 </FormGroup>
                 <FormGroup>
                     <ButtonToolbar style={{'float': 'right'}}>

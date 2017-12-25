@@ -10,6 +10,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.handleModelClick = this.handleModelClick.bind(this);
+        this.handleDaoClick = this.handleDaoClick.bind(this);
+        this.handleServiceClick = this.handleServiceClick.bind(this);
     }
 
     componentDidMount() {
@@ -22,9 +24,19 @@ class App extends Component {
         });
     }
 
+    handleServiceClick() {
+        if(this.props.table_name)
+            ipcRenderer.send('createContent', {type: 'service', table: this.props.table_name});
+    }
+
+    handleDaoClick() {
+        if (this.props.table_name)
+            ipcRenderer.send('createContent', {type: 'dao', table: this.props.table_name});
+    }
+
     handleModelClick() {
         if (this.props.table_name)
-            ipcRenderer.send('createModel', {table: this.props.table_name, columns: this.props.columns});
+            ipcRenderer.send('createContent', {type: 'model', table: this.props.table_name, columns: this.props.columns});
     }
 
     render() {
@@ -42,9 +54,8 @@ class App extends Component {
                             <div className="panel-heading">
                                 {this.props.table_name || 'table'}
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>action</a>
-                                <a className="pull-right btn btn-link btn-xs"
-                                   onClick={this.handleModelClick}>service</a>
-                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>dao</a>
+                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleServiceClick}>service</a>
+                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleDaoClick}>dao</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>model</a>
                             </div>
                             <MainTable/>

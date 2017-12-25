@@ -1,16 +1,33 @@
 const {ipcMain, BrowserWindow} = require('electron');
 const fs = require('fs');
-
 const mysql = require('mysql');
-const {toCamelCase} = require('./utils');
+const {createModel} = require('./templates/model');
+const {createDao} = require('./templates/dao');
+const {createService} = require('./templates/service');
+
+
 let connection = null;
 
 // 加载配置
-const conf = fs.readFileSync('conf.json', 'utf-8');
-let connData = JSON.parse(conf);
+let connData;
+let conf;
+if (fs.existsSync('conf.json')) {
+    conf = fs.readFileSync('conf.json', 'utf-8');
+    connData = JSON.parse(conf);
+} else {
+    connData = {
+        database: '',
+        host: 'localhost',
+        password: '',
+        port: 3306,
+        user: ''
+    };
+    conf = JSON.stringify(connData);
+}
 
 ipcMain.on('getConn', (e, args) => {
-    e.sender.send('getConnSuccess', connData);
+    if (connData.database)
+        e.sender.send('getConnSuccess', connData);
 });
 
 const setConn = (e, args) => {
@@ -84,60 +101,27 @@ ipcMain.on('getNews', (event, args) => {
 ipcMain.on('getTables', getTables);
 ipcMain.on('getColumns', getColumns);
 
-const dataTypeToJava = (dataType) => {
-    let type;
-    switch (dataType) {
-        case 'int':
-            type = 'int';
+
+ipcMain.on('createContent', (e, r) => {
+    const {type} = r;
+    let createContent;
+    switch (type) {
+        case 'model':
+            createContent = createModel;
             break;
-        case 'varchar':
-        case 'text':
+        case 'dao':
+            createContent = createDao;
+            break;
+        case 'service':
+            createContent = createService;
+            break;
+        // case 'action':
+        //     break;
         default:
-            type = 'String';
+            createContent = () => '没有这个类';
             break;
     }
-    return type;
-};
-
-const createModel = (data) => {
-    let content = [];
-    let parent_package = 'com.nsteam.exchange';
-    let package_name = 'model';
-    let table_name = data.table;
-    let class_name = toCamelCase(table_name);
-    content.push(`package ${parent_package}.${package_name};`);
-    content.push('import java.util.Date;');
-    content.push(`import ${parent_package}.util.StrUtils;`);
-    content.push('');
-    content.push(`@modelAttribute(name="${table_name}")`);
-    content.push(`public class ${class_name} extends BaseModel {`);
-
-    data.columns.map(e => {
-        let field_name = toCamelCase(e.name);
-        let type = dataTypeToJava(e.type);
-        content.push(`    /**`);
-        content.push(`     * ${e.comment}`);
-        content.push(`     */`);
-        let allow_update = e.allow_update ? '' : ', allowupdate=false';
-        content.push(`    @fieldAttribute(name="${e.name}"${allow_update})`);
-        content.push(`    private ${type} ${field_name};`);
-        content.push(`    public void set${field_name}(${type} value) {`);
-        let value = e.column_key === 'PRI' ? `StrUtils.padLeft(value, 8, '0')` : 'value';
-        content.push(`        this.${field_name} = ${value};`);
-        content.push(`    }`);
-        content.push(`    public ${type} get${field_name}() {`);
-        content.push(`        return this.${field_name};`);
-        content.push(`    }`);
-        content.push('');
-    });
-
-    content.push('}');
-    return content.join('\n');
-};
-
-ipcMain.on('createModel', (e, r) => {
-    const content = createModel(r);
-
+    const content = createContent(r, connData.packagename);
     global.wins.editorWindow = new BrowserWindow({width: 900, height: 600});
     // win.loadURL(url.format({
     //     pathname: path.join(__dirname, './build/index.html'),
@@ -152,4 +136,3 @@ ipcMain.on('createModel', (e, r) => {
     });
     global.wins.editorWindow.show();
 });
-
