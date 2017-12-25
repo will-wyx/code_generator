@@ -1,11 +1,29 @@
 import React, {Component} from 'react';
 import {Form, FormGroup, ButtonToolbar, Button} from 'react-bootstrap';
+
 const {ipcRenderer} = window.require('electron');
 
 export default class Connection extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+            host: '',
+            port: 0,
+            user: '',
+            password: '',
+            database: ''
+        }
+    }
+
+    componentDidMount() {
+        const that = this;
+        ipcRenderer.send('getConn');
+        ipcRenderer.on('getConnSuccess', (e, r) => {
+            for(let key of Object.keys(r)) {
+                that.refs[key].value = r[key]
+            }
+        })
     }
 
     handleSubmit(e) {
@@ -24,24 +42,19 @@ export default class Connection extends Component {
         return (
             <Form horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="hostname/ip" defaultValue={this.props.host}
-                           ref="host"/>
+                    <input className="form-control" type="text" placeholder="hostname/ip" ref="host"/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="port" defaultValue={this.props.port}
-                           ref="port"/>
+                    <input className="form-control" type="text" placeholder="port" ref="port"/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="username" defaultValue={this.props.user}
-                           ref="user"/>
+                    <input className="form-control" type="text" placeholder="username" ref="user"/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="password"
-                           defaultValue={this.props.password} ref="password"/>
+                    <input className="form-control" type="text" placeholder="password" ref="password"/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="database"
-                           defaultValue={this.props.database} ref="database"/>
+                    <input className="form-control" type="text" placeholder="database" ref="database"/>
                 </FormGroup>
                 <FormGroup>
                     <ButtonToolbar style={{'float': 'right'}}>

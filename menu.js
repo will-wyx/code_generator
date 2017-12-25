@@ -1,50 +1,14 @@
-const {BrowserWindow} = require('electron')
-
-// const template = [
-//     {
-//         submenu: [
-//             {
-//                 label: '连接',
-//                 role: 'connect',
-//                 click() {
-//                     const win = new BrowserWindow({width: 400, height: 300});
-//                     // win.loadURL(url.format({
-//                     //     pathname: path.join(__dirname, './build/index.html'),
-//                     //     hash: '#/connection',
-//                     //     protocol: 'file:',
-//                     //     slashes: true
-//                     // }))
-//
-//                     win.loadURL('http://localhost:3000#/connection');
-//                     win.show();
-//                 }
-//             },
-//             {
-//                 label: '退出',
-//                 role: 'exit'
-//             }
-//         ]
-//     },
-//     {
-//         label: '帮助',
-//         role: 'help',
-//         submenu: [
-//             {
-//                 label: '关于',
-//                 role: 'about'
-//             }
-//         ]
-//     }
-// ];
+const {app, BrowserWindow} = require('electron')
 
 let template = [
     {
+        label: 'File',
         submenu: [
             {
                 label: '连接',
                 role: 'connect',
                 click() {
-                    const win = new BrowserWindow({width: 460, height: 350});
+                    global.wins.connectionWindow = new BrowserWindow({width: 460, height: 350});
                     // win.loadURL(url.format({
                     //     pathname: path.join(__dirname, './build/index.html'),
                     //     hash: '#/connection',
@@ -52,8 +16,8 @@ let template = [
                     //     slashes: true
                     // }))
 
-                    win.loadURL('http://localhost:3000#/connection');
-                    win.show();
+                    global.wins.connectionWindow.loadURL('http://localhost:3000#/connection');
+                    global.wins.connectionWindow.show();
                 }
             },
             {
@@ -173,5 +137,53 @@ let template = [
             role: 'about'
         }]
     }];
+
+if (process.platform === 'darwin') {
+    const name = app.getName();
+    template.unshift({
+        label: name,
+        submenu: [{
+            label: `About ${name}`,
+            role: 'about'
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Services',
+            role: 'services',
+            submenu: []
+        }, {
+            type: 'separator'
+        }, {
+            label: `Hide ${name}`,
+            accelerator: 'Command+H',
+            role: 'hide'
+        }, {
+            label: 'Hide Others',
+            accelerator: 'Command+Alt+H',
+            role: 'hideothers'
+        }, {
+            label: 'Show All',
+            role: 'unhide'
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Quit',
+            accelerator: 'Command+Q',
+            click: function () {
+                app.quit()
+            }
+        }]
+    });
+
+    // Window menu.
+    template[3].submenu.push({
+        type: 'separator'
+    }, {
+        label: 'Bring All to Front',
+        role: 'front'
+    });
+
+    // addUpdateMenuItems(template[0].submenu, 1)
+}
 
 module.exports = template;

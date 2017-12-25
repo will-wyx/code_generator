@@ -5,38 +5,42 @@ import {Provider} from 'react-redux';
 import reducer from './reducers/index';
 import App from './components/App';
 import Connection from './components/Connection';
+import Editor from './components/Editor';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import {BrowserRouter, HashRouter, Route} from 'react-router-dom';
 
 const initValue = {
-    count: 0
+    database: {
+        name: '',
+        tables: [],
+    },
+    table: {
+        name: '',
+        columns: [],
+    }
 };
 
 const store = createStore(reducer, initValue);
 
 const bodyStyle = {
-    padding: '20px'
+    // padding: '20px'
 };
 
 ReactDOM.render(
     <Provider store={store}>
         <HashRouter>
             <div style={bodyStyle}>
-                <div className="container">
+                <div className="container-fluid">
                     <Route exact path="/" component={App}/>
                     <Route exact path="/connection" component={Connection}/>
+                    <Route exact path="/editor" component={Editor}/>
                 </div>
             </div>
         </HashRouter>
     </Provider>
     , document.getElementById('root'));
 
-// const {ipcRenderer} = window.require('electron');
-// ipcRenderer.send('getNews', 'r');
-// ipcRenderer.on('getNewsSuccess', (e, r) => {
-//     console.log(r)
-// });
 
 
 
