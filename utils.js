@@ -1,3 +1,5 @@
+const path = require('path');
+const url = require('url');
 const reg_initials = /^[a-z]|_[a-z]/g;
 exports.toCamelCase = (v) => {
     return v.toLowerCase().replace(reg_initials, (e, r, t) => {
@@ -26,4 +28,15 @@ exports.dataTypeToJava = (dataType) => {
             break;
     }
     return type;
+};
+
+exports.loadURL = (win, hash) => {
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, './build/index.html'),
+        hash: `#/${hash}`,
+        protocol: 'file:',
+        slashes: true
+    }));
+    // win.loadURL(`http://localhost:3000#/${hash}`);
+    return win;
 };

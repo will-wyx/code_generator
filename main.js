@@ -1,7 +1,5 @@
 const {app, BrowserWindow, Menu} = require('electron');
-
-const path = require('path');
-const url = require('url');
+const {loadURL} = require('./utils');
 
 const template = require('./menu');
 
@@ -19,14 +17,7 @@ function createWindow() {
     // Create the browser window.
     global.wins.mainWindow = new BrowserWindow({width: 900, height: 600});
 
-    // and load the index.html of the app.
-    // mainWindow.loadURL(url.format({
-    //     pathname: path.join(__dirname, './build/index.html'),
-    //     hash: '#/connection',
-    //     protocol: 'file:',
-    //     slashes: true
-    // }))
-    global.wins.mainWindow.loadURL('http://localhost:3000');
+    loadURL(global.wins.mainWindow, '');
 
     global.wins.mainWindow.on('closed', function () {
         global.wins.mainWindow = null

@@ -1,6 +1,7 @@
 const {ipcMain, BrowserWindow} = require('electron');
 const fs = require('fs');
 const mysql = require('mysql');
+const {loadURL} = require('./utils');
 const {createModel} = require('./templates/model');
 const {createDao} = require('./templates/dao');
 const {createService} = require('./templates/service');
@@ -125,14 +126,8 @@ ipcMain.on('createContent', (e, r) => {
     }
     const content = createContent(r, connData.packagename);
     global.wins.editorWindow = new BrowserWindow({width: 900, height: 600});
-    // win.loadURL(url.format({
-    //     pathname: path.join(__dirname, './build/index.html'),
-    //     hash: '#/editor',
-    //     protocol: 'file:',
-    //     slashes: true
-    // }))
 
-    global.wins.editorWindow.loadURL('http://localhost:3000#/editor');
+    loadURL(global.wins.editorWindow, 'editor');
     global.wins.editorWindow.webContents.on('did-finish-load', () => {
         global.wins.editorWindow.webContents.send('render', content);
     });

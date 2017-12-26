@@ -1,4 +1,5 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow} = require('electron');
+const {loadURL} = require('./utils');
 
 let template = [
     {
@@ -9,15 +10,7 @@ let template = [
                 role: 'connect',
                 click() {
                     global.wins.connectionWindow = new BrowserWindow({width: 460, height: 350});
-                    // win.loadURL(url.format({
-                    //     pathname: path.join(__dirname, './build/index.html'),
-                    //     hash: '#/connection',
-                    //     protocol: 'file:',
-                    //     slashes: true
-                    // }))
-
-                    global.wins.connectionWindow.loadURL('http://localhost:3000#/connection');
-                    global.wins.connectionWindow.show();
+                    loadURL(global.wins.connectionWindow, 'connection').show();
                 }
             },
             {

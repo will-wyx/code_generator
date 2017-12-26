@@ -16,7 +16,7 @@ const MainTable = (props) => {
             <tbody>
             {
                 props.columns.map((e, i) => (
-                    <tr key={i} className={e.column_key === 'PRI' ? 'info' : null}>
+                    <tr key={i} className={e.column_key === 'PRI' ? 'danger' : null}>
                         <td>{e.name}</td>
                         <td>
                             <input type="checkbox" checked={e.allow_update} onChange={(event) => {
