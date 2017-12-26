@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const {createModel} = require('./templates/model');
 const {createDao} = require('./templates/dao');
 const {createService} = require('./templates/service');
+const {createAction} = require('./templates/action');
 
 
 let connection = null;
@@ -115,8 +116,9 @@ ipcMain.on('createContent', (e, r) => {
         case 'service':
             createContent = createService;
             break;
-        // case 'action':
-        //     break;
+        case 'action':
+            createContent = createAction;
+            break;
         default:
             createContent = () => '没有这个类';
             break;

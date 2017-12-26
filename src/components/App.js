@@ -12,6 +12,7 @@ class App extends Component {
         this.handleModelClick = this.handleModelClick.bind(this);
         this.handleDaoClick = this.handleDaoClick.bind(this);
         this.handleServiceClick = this.handleServiceClick.bind(this);
+        this.handleActionClick = this.handleActionClick.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +23,11 @@ class App extends Component {
         ipcRenderer.on('getColumnsSuccess', (e, r) => {
             this.props.dispatch(update_columns(r));
         });
+    }
+
+    handleActionClick() {
+        if(this.props.table_name)
+            ipcRenderer.send('createContent', {type: 'action', table: this.props.table_name});
     }
 
     handleServiceClick() {
@@ -53,7 +59,7 @@ class App extends Component {
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 {this.props.table_name || 'table'}
-                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>action</a>
+                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleActionClick}>action</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleServiceClick}>service</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleDaoClick}>dao</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>model</a>
