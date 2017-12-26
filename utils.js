@@ -31,12 +31,12 @@ exports.dataTypeToJava = (dataType) => {
 };
 
 exports.loadURL = (win, hash) => {
-    win.loadURL(url.format({
-        pathname: path.join(__dirname, './build/index.html'),
-        hash: `#/${hash}`,
-        protocol: 'file:',
-        slashes: true
-    }));
-    // win.loadURL(`http://localhost:3000#/${hash}`);
+    // win.loadURL(url.format({
+    //     pathname: path.join(__dirname, './build/index.html'),
+    //     hash: `#/${hash}`,
+    //     protocol: 'file:',
+    //     slashes: true
+    // }));
+    win.loadURL(`http://localhost:3000#/${hash}`);
     return win;
 };

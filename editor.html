@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Hello World!</title>
+    <style>
+        #container {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div id="container"></div>
 </body>
+
+<script>
+    // Monaco uses a custom amd loader that over-rides node's require.
+    // Keep a reference to node's require so we can restore it after executing the amd loader file.
+    const nodeRequire = global.require;
+</script>
+<script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+<script>
+    // Save Monaco's amd require and restore Node's require
+    const amdRequire = global.require;
+    global.require = nodeRequire;
+</script>
+
+<script>
+    // require node modules before loader.js comes in
+    const path = require('path');
+    const {ipcRenderer} = require('electron');
+
+    function uriFromPath(_path) {
+        let pathName = path.resolve(_path).replace(/\\/g, '/');
+        if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+            pathName = '/' + pathName;
+        }
+        return encodeURI('file://' + pathName);
+    }
+
+    amdRequire.config({
+        baseUrl: uriFromPath(path.join(__dirname, './node_modules/monaco-editor/min'))
+    });
+
+    // workaround monaco-css not understanding the environment
+    self.module = undefined;
+
+    // workaround monaco-typescript not understanding the environment
+    self.process.browser = true;
+
+    ipcRenderer.on('render', (e, r) => {
+        amdRequire(['vs/editor/editor.main'], function() {
+            const editor = monaco.editor.create(document.getElementById('container'), {
+                value: r,
+                language: 'java',
+                theme: 'vs-dark',
+                fontSize: 13,
+                minimap: {
+                    enabled: false
+                }
+            });
+        });
+    });
+</script>
 </html>

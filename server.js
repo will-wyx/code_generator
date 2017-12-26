@@ -127,7 +127,8 @@ ipcMain.on('createContent', (e, r) => {
     const content = createContent(r, connData.packagename);
     global.wins.editorWindow = new BrowserWindow({width: 900, height: 600});
 
-    loadURL(global.wins.editorWindow, 'editor');
+    global.wins.editorWindow.loadURL(`file://${__dirname}/editor.html`);
+    // loadURL(global.wins.editorWindow, 'editor');
     global.wins.editorWindow.webContents.on('did-finish-load', () => {
         global.wins.editorWindow.webContents.send('render', content);
     });
