@@ -34,22 +34,22 @@ export default class Connection extends Component {
         return (
             <Form horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="hostname/ip" ref="host"/>
+                    <input className="form-control" type="text" placeholder="hostname/ip" ref="host" required/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="port" ref="port"/>
+                    <input className="form-control" type="text" placeholder="port" ref="port" required/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="username" ref="user"/>
+                    <input className="form-control" type="text" placeholder="username" ref="user" required/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="password" ref="password"/>
+                    <input className="form-control" type="text" placeholder="password" ref="password" required/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="database" ref="database"/>
+                    <input className="form-control" type="text" placeholder="database" ref="database" required/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="text" placeholder="packagename" ref="packagename"/>
+                    <input className="form-control" type="text" placeholder="packagename" ref="packagename" required/>
                 </FormGroup>
                 <FormGroup>
                     <ButtonToolbar style={{'float': 'right'}}>
