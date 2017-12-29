@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron-start": "electron ."
+    "electron-start": "electron --inspect=5858 ."
   },
   "main": "main.js",
   "homepage": "."

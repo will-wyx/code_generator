@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
     <style>
         #container {
             position: absolute;
@@ -51,11 +50,14 @@
 
     // workaround monaco-typescript not understanding the environment
     self.process.browser = true;
+    let editor;
+    let file_name = '';
 
     ipcRenderer.on('render', (e, r) => {
+        file_name = r.file_name;
         amdRequire(['vs/editor/editor.main'], function() {
-            const editor = monaco.editor.create(document.getElementById('container'), {
-                value: r,
+            editor = monaco.editor.create(document.getElementById('container'), {
+                value: r.content,
                 language: 'java',
                 theme: 'vs-dark',
                 fontSize: 13,
@@ -65,6 +67,12 @@
                 }
             });
         });
+    });
+
+    ipcRenderer.on('save', () => {
+        if(editor) {
+            ipcRenderer.send('save', {file_name, content: editor.getValue()});
+        }
     });
 </script>
 </html>

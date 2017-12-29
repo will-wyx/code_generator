@@ -31,5 +31,5 @@ exports.createModel = (data, parent_package) => {
     });
 
     content.push('}');
-    return content.join('\n');
+    return {file_name: `${class_name}.java`, content: content.join('\n')};
 };

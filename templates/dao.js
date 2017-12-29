@@ -63,5 +63,5 @@ import ${parent_package}.model.${model_class_name};
 public class ${class_name} extends BaseDao {
     ${methods}
 }`;
-    return template;
+    return {file_name: `${class_name}.java`, content: template};
 };

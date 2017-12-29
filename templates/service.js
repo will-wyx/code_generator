@@ -61,5 +61,5 @@ public class ${class_name} extends BaseService {
     private ${dao_class_name} dao;
     ${methods}
 }`;
-    return template;
+    return {file_name: `${class_name}.java`, content: template};
 };

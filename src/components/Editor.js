@@ -11,7 +11,7 @@ export default class Editor extends Component {
         const that = this;
         ipcRenderer.on('render', (e, r) => {
             that.refs.txtMain.value = r;
-        })
+        });
     }
 
     render() {

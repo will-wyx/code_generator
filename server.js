@@ -1,4 +1,4 @@
-const {ipcMain, BrowserWindow} = require('electron');
+const {ipcMain, BrowserWindow, dialog} = require('electron');
 const fs = require('fs');
 const mysql = require('mysql');
 const {loadURL} = require('./utils');
@@ -128,9 +128,19 @@ ipcMain.on('createContent', (e, r) => {
     global.wins.editorWindow = new BrowserWindow({width: 900, height: 600});
 
     global.wins.editorWindow.loadURL(`file://${__dirname}/editor.html`);
+    global.wins.editorWindow.setTitle(content.file_name);
     // loadURL(global.wins.editorWindow, 'editor');
     global.wins.editorWindow.webContents.on('did-finish-load', () => {
         global.wins.editorWindow.webContents.send('render', content);
     });
     global.wins.editorWindow.show();
+});
+
+ipcMain.on('save', (e, r) => {
+    dialog.showSaveDialog({title: r.file_name, defaultPath: r.file_name}, (filename) => {
+        fs.writeFile(filename, r.content, err => {
+            if (err)
+                console.error(err);
+        });
+    });
 });

@@ -174,5 +174,5 @@ public class ${class_name} extends BaseAction {
     ${methods}
 }
     `;
-    return template;
+    return {file_name: `${class_name}.java`, content: template};
 };

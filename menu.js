@@ -14,6 +14,14 @@ let template = [
                 }
             },
             {
+                label: '保存',
+                role: 'save',
+                click() {
+                    let win = BrowserWindow.getFocusedWindow();
+                    win.webContents.send('save');
+                }
+            },
+            {
                 label: '退出',
                 role: 'exit'
             }
