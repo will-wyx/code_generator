@@ -7,6 +7,7 @@
     "electron": "^1.7.10",
     "monaco-editor": "^0.10.1",
     "mysql": "^2.15.0",
+    "oracledb": "github:oracle/node-oracledb#v2.0.15",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",

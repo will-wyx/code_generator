@@ -1,7 +1,6 @@
 const {ipcMain, BrowserWindow, dialog} = require('electron');
 const fs = require('fs');
 const mysql = require('mysql');
-const {loadURL} = require('./utils');
 const {createModel} = require('./templates/model');
 const {createDao} = require('./templates/dao');
 const {createService} = require('./templates/service');

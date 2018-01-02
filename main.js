@@ -2,6 +2,7 @@ const {app, BrowserWindow, Menu} = require('electron');
 const {loadURL} = require('./utils');
 
 const template = require('./menu');
+require('./server');
 
 global.wins = {
     mainWindow: {},
@@ -38,4 +39,3 @@ app.on('activate', function () {
     }
 });
 
-require('./server');
