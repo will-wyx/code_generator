@@ -48,8 +48,22 @@ exports.createAction = (data, parent_package) => {
     @RequestMapping(value="/save")
     @ActionDescription(name = "", permission = "manage")
     public JsonResult save(@RequestBody ${model_class_name} entity) {
-        boolean success = service.save(entity);
-        return JsonResult(true, "获取数据成功", service.baseFindById(id));
+        boolean success = service.baseSave(entity);
+        return JsonResult(success, success ? "添加成功" : "添加失败");
+    }
+    
+    @RequestMapping(value="/update")
+    @ActionDescription(name = "", permission = "manage")
+    public JsonResult update(@RequestBody ${model_class_name} entity) {
+        boolean success = service.baseUpdate(entity);
+        return JsonResult(success, success ? "更新成功" : "更新失败");
+    }
+    
+    @RequestMapping(value="/delete")
+    @ActionDescription(name = "", permission = "manage")
+    public JsonResult update(String id) {
+        boolean success = service.baseDeleteById(id);
+        return JsonResult(success, success ? "删除成功" : "删除失败");
     }
     `;
 
