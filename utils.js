@@ -1,8 +1,10 @@
 const path = require('path');
 const url = require('url');
 const reg_initials = /^[a-z]|_[a-z]/g;
-exports.toCamelCase = (v) => {
-    return v.toLowerCase().replace(reg_initials, (e, r, t) => {
+const reg_initials_little = /_[a-z]/g;
+exports.toCamelCase = (v, lettle) => {
+    let reg = lettle ? reg_initials_little : reg_initials;
+    return v.toLowerCase().replace(reg, (e, r, t) => {
         return e.replace('_', '').toUpperCase()
     });
 };

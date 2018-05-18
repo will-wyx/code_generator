@@ -6,6 +6,7 @@
     "bootstrap": "^3.3.7",
     "electron": "^1.7.10",
     "monaco-editor": "^0.10.1",
+    "mssql": "^4.1.0",
     "mysql": "^2.15.0",
     "oracledb": "github:oracle/node-oracledb#v2.0.15",
     "react": "^16.2.0",

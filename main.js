@@ -18,7 +18,15 @@ function createWindow() {
     // Create the browser window.
     global.wins.mainWindow = new BrowserWindow({width: 900, height: 600});
 
-    loadURL(global.wins.mainWindow, '');
+    // loadURL(global.wins.mainWindow, '');
+    // and load the index.html of the app.
+    // mainWindow.loadURL(url.format({
+    //     pathname: path.join(__dirname, './build/index.html'),
+    //     hash: '#/connection',
+    //     protocol: 'file:',
+    //     slashes: true
+    // }))
+    global.wins.mainWindow.loadURL('http://localhost:3000');
 
     global.wins.mainWindow.on('closed', function () {
         global.wins.mainWindow = null

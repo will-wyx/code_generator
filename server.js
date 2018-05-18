@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const {createModel} = require('./templates/model');
 const {createDao} = require('./templates/dao');
 const {createService} = require('./templates/service');
+const {createServiceImpl} = require('./templates/service-impl');
 const {createAction} = require('./templates/action');
 
 
@@ -115,6 +116,9 @@ ipcMain.on('createContent', (e, r) => {
             break;
         case 'service':
             createContent = createService;
+            break;
+        case 'serviceImpl':
+            createContent = createServiceImpl;
             break;
         case 'action':
             createContent = createAction;

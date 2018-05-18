@@ -12,6 +12,7 @@ class App extends Component {
         this.handleModelClick = this.handleModelClick.bind(this);
         this.handleDaoClick = this.handleDaoClick.bind(this);
         this.handleServiceClick = this.handleServiceClick.bind(this);
+        this.handleServiceImplClick = this.handleServiceImplClick.bind(this);
         this.handleActionClick = this.handleActionClick.bind(this);
     }
 
@@ -26,13 +27,18 @@ class App extends Component {
     }
 
     handleActionClick() {
-        if(this.props.table_name)
+        if (this.props.table_name)
             ipcRenderer.send('createContent', {type: 'action', table: this.props.table_name});
     }
 
     handleServiceClick() {
-        if(this.props.table_name)
+        if (this.props.table_name)
             ipcRenderer.send('createContent', {type: 'service', table: this.props.table_name});
+    }
+
+    handleServiceImplClick() {
+        if (this.props.table_name)
+            ipcRenderer.send('createContent', {type: 'serviceImpl', table: this.props.table_name});
     }
 
     handleDaoClick() {
@@ -59,7 +65,8 @@ class App extends Component {
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 {this.props.table_name || 'table'}
-                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleActionClick}>action</a>
+                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleActionClick}>controller</a>
+                                <a className="pull-right btn btn-link btn-xs" onClick={this.handleServiceImplClick}>service-impl</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleServiceClick}>service</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleDaoClick}>dao</a>
                                 <a className="pull-right btn btn-link btn-xs" onClick={this.handleModelClick}>model</a>
